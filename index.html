@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MVP Knowledge Hub - Your Journey to Microsoft MVP</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo">
+                        <h1>MVP Hub</h1>
+                        <span class="tagline">Your Journey to Microsoft MVP</span>
+                    </div>
+                    <div class="header-actions">
+                        <div class="search-container">
+                            <input type="text" id="searchInput" class="search-input" placeholder="Search articles, events, resources...">
+                            <button class="search-btn" id="searchBtn">
+                                <span>🔍</span>
+                            </button>
+                        </div>
+                        <button class="theme-toggle" id="themeToggle">
+                            <span class="theme-icon">🌙</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Navigation -->
+                <nav class="nav">
+                    <button class="nav-item active" data-section="dashboard">Dashboard</button>
+                    <button class="nav-item" data-section="news">News</button>
+                    <button class="nav-item" data-section="rss">RSS Feeds</button>
+                    <button class="nav-item" data-section="events">Events</button>
+                    <button class="nav-item" data-section="journey">MVP Journey</button>
+                    <button class="nav-item" data-section="content">Content Hub</button>
+                    <button class="nav-item" data-section="bookmarks">Bookmarks</button>
+                    <button class="nav-item" data-section="profile">Profile</button>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main">
+            <div class="container">
+                
+                <!-- Dashboard Section -->
+                <section id="dashboard-section" class="section active">
+                    <!-- MVP Journey Progress -->
+                    <div class="hero-section">
+                        <div class="card">
+                            <div class="card__body">
+                                <h2>Your MVP Journey</h2>
+                                <div class="progress-container">
+                                    <div class="current-phase">
+                                        <span class="phase-label">Current Phase:</span>
+                                        <span class="phase-name">Community Engagement</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 45%"></div>
+                                    </div>
+                                    <div class="progress-text">45% Complete</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Stats -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-number" id="blogPostCount">23</div>
+                            <div class="stat-label">Blog Posts</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="forumAnswerCount">87</div>
+                            <div class="stat-label">Forum Answers</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="conferenceCount">3</div>
+                            <div class="stat-label">Conferences</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="contributionCount">156</div>
+                            <div class="stat-label">Contributions</div>
+                        </div>
+                    </div>
+
+                    <!-- Dashboard Content Grid -->
+                    <div class="dashboard-grid">
+                        <!-- Latest News -->
+                        <div class="dashboard-widget">
+                            <h3>Latest News</h3>
+                            <div id="latestNews" class="news-list"></div>
+                            <button class="btn btn--outline btn--sm" data-section="news">View All News</button>
+                        </div>
+
+                        <!-- Upcoming Events -->
+                        <div class="dashboard-widget">
+                            <h3>Upcoming Events</h3>
+                            <div id="upcomingEvents" class="events-list"></div>
+                            <button class="btn btn--outline btn--sm" data-section="events">View All Events</button>
+                        </div>
+
+                        <!-- Recent Bookmarks -->
+                        <div class="dashboard-widget">
+                            <h3>Recent Bookmarks</h3>
+                            <div id="recentBookmarks" class="bookmarks-list">
+                                <p class="empty-state">No bookmarks yet. Save articles to see them here.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- News Section -->
+                <section id="news-section" class="section">
+                    <div class="section-header">
+                        <h2>News Aggregator</h2>
+                        <div class="filters">
+                            <select class="form-control filter-select" id="sourceFilter">
+                                <option value="">All Sources</option>
+                                <option value="Microsoft Dynamics 365 Blog">Microsoft Official</option>
+                                <option value="Azure AI Foundry Blog">Azure AI Official</option>
+                                <option value="MVP Program Blog">MVP Program</option>
+                            </select>
+                            <select class="form-control filter-select" id="dateFilter">
+                                <option value="">All Time</option>
+                                <option value="7">Last 7 Days</option>
+                                <option value="30">Last 30 Days</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- News Categories -->
+                    <div class="tabs">
+                        <button class="tab-btn active" data-category="all">All</button>
+                        <button class="tab-btn" data-category="Business Central">Business Central</button>
+                        <button class="tab-btn" data-category="Azure AI">Azure AI</button>
+                        <button class="tab-btn" data-category="MVP Program">MVP Program</button>
+                    </div>
+
+                    <!-- Articles List -->
+                    <div id="articlesList" class="articles-grid"></div>
+                </section>
+
+                <!-- RSS Feeds Section -->
+                <section id="rss-section" class="section">
+                    <div class="section-header">
+                        <h2>RSS Feed Sources</h2>
+                        <button class="btn btn--primary" id="addFeedBtn">Add New Feed</button>
+                    </div>
+                    <div id="rssFeeds" class="rss-feeds-grid"></div>
+                </section>
+
+                <!-- Events Section -->
+                <section id="events-section" class="section">
+                    <div class="section-header">
+                        <h2>Conferences & Events</h2>
+                        <div class="event-actions">
+                            <button class="btn btn--primary" id="addEventBtn">Add Event</button>
+                            <button class="btn btn--outline" id="findEventsBtn">Find Events Near Me</button>
+                        </div>
+                    </div>
+                    <div id="eventsList" class="events-grid"></div>
+                </section>
+
+                <!-- MVP Journey Section -->
+                <section id="journey-section" class="section">
+                    <h2>MVP Journey Tracker</h2>
+                    
+                    <!-- Journey Phases -->
+                    <div class="journey-phases">
+                        <div class="phase completed">
+                            <div class="phase-header">
+                                <div class="phase-icon">✓</div>
+                                <h3>Foundation Building</h3>
+                                <span class="phase-status completed">Completed</span>
+                            </div>
+                            <p class="phase-description">3-6 months: Learn Business Central fundamentals, Get Azure AI certified, Set up profiles</p>
+                        </div>
+                        
+                        <div class="phase current">
+                            <div class="phase-header">
+                                <div class="phase-icon">⏳</div>
+                                <h3>Community Engagement</h3>
+                                <span class="phase-status current">In Progress</span>
+                            </div>
+                            <p class="phase-description">6-12 months: Write blog posts, Answer forum questions, Attend conferences</p>
+                        </div>
+                        
+                        <div class="phase upcoming">
+                            <div class="phase-header">
+                                <div class="phase-icon">📋</div>
+                                <h3>Contribution & Recognition</h3>
+                                <span class="phase-status upcoming">Upcoming</span>
+                            </div>
+                            <p class="phase-description">12-18 months: Open source contributions, Major speaking, Thought leadership</p>
+                        </div>
+                        
+                        <div class="phase upcoming">
+                            <div class="phase-header">
+                                <div class="phase-icon">🏆</div>
+                                <h3>MVP Achievement</h3>
+                                <span class="phase-status upcoming">Upcoming</span>
+                            </div>
+                            <p class="phase-description">2-3 months: Get nominated, Submit contributions, Review process</p>
+                        </div>
+                    </div>
+
+                    <!-- Goals Tracking -->
+                    <div class="goals-section">
+                        <div class="section-header">
+                            <h3>2025 Goals</h3>
+                            <button class="btn btn--outline btn--sm" id="addGoalBtn">Add Goal</button>
+                        </div>
+                        <div class="goals-grid" id="goalsGrid">
+                            <!-- Goals will be rendered dynamically -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Content Hub Section -->
+                <section id="content-section" class="section">
+                    <h2>Content Creation Hub</h2>
+                    <div class="content-grid">
+                        <div class="content-widget">
+                            <h3>Blog Post Ideas</h3>
+                            <p>Track and develop your next blog post ideas</p>
+                            <div class="content-stats" id="blogIdeasCount">0 ideas</div>
+                            <button class="btn btn--primary" id="manageBlogIdeasBtn">Manage Ideas</button>
+                        </div>
+                        <div class="content-widget">
+                            <h3>Speaking Topics</h3>
+                            <p>Prepare and organize your conference presentations</p>
+                            <div class="content-stats" id="speakingTopicsCount">0 topics</div>
+                            <button class="btn btn--primary" id="manageSpeakingTopicsBtn">View Topics</button>
+                        </div>
+                        <div class="content-widget">
+                            <h3>Contribution Opportunities</h3>
+                            <p>Find technical contribution opportunities</p>
+                            <div class="content-stats" id="contributionOppsCount">0 tracked</div>
+                            <button class="btn btn--primary" id="exploreContributionsBtn">Explore</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Bookmarks Section -->
+                <section id="bookmarks-section" class="section">
+                    <div class="section-header">
+                        <h2>Saved Articles</h2>
+                        <div class="bookmarks-filters">
+                            <select class="form-control" id="bookmarksCategory">
+                                <option value="">All Categories</option>
+                                <option value="Business Central">Business Central</option>
+                                <option value="Azure AI">Azure AI</option>
+                                <option value="MVP Program">MVP Program</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="bookmarksList" class="bookmarks-grid">
+                        <div class="empty-state">
+                            <h3>No bookmarks yet</h3>
+                            <p>Save articles from the news section to see them here</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Profile Section -->
+                <section id="profile-section" class="section">
+                    <h2>Profile & Settings</h2>
+                    <div class="profile-grid">
+                        <div class="profile-info">
+                            <div class="section-header">
+                                <h3>Personal Information</h3>
+                                <button class="btn btn--outline btn--sm" id="editProfileBtn">Edit Profile</button>
+                            </div>
+                            <div id="profileDisplay">
+                                <!-- Profile info will be rendered here -->
+                            </div>
+                        </div>
+                        
+                        <div class="settings">
+                            <h3>Notification Settings</h3>
+                            <div class="setting-item">
+                                <label>
+                                    <input type="checkbox" id="newsNotifications" checked> New articles notifications
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <label>
+                                    <input type="checkbox" id="conferenceNotifications" checked> Conference updates
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <label>
+                                    <input type="checkbox" id="mvpNotifications" checked> MVP program updates
+                                </label>
+                            </div>
+                            <div style="margin-top: var(--space-16);">
+                                <button class="btn btn--outline" id="exportDataBtn">Export My Data</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <!-- Modals -->
+
+        <!-- Add RSS Feed Modal -->
+        <div id="addFeedModal" class="modal hidden">
+            <div class="modal-backdrop"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Add New RSS Feed</h3>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label">Feed Name</label>
+                        <input type="text" class="form-control" id="feedName" placeholder="Enter feed name">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Feed URL</label>
+                        <input type="url" class="form-control" id="feedUrl" placeholder="https://example.com/feed">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Category</label>
+                        <select class="form-control" id="feedCategory">
+                            <option value="Business Central">Business Central</option>
+                            <option value="Azure AI">Azure AI</option>
+                            <option value="MVP Program">MVP Program</option>
+                            <option value="General">General</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn--outline" id="cancelFeed">Cancel</button>
+                    <button class="btn btn--primary" id="saveFeed">Add Feed</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Article Detail Modal -->
+        <div id="articleModal" class="modal hidden">
+            <div class="modal-backdrop"></div>
+            <div class="modal-content modal-large">
+                <div class="modal-header">
+                    <h3 id="articleModalTitle"></h3>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body" id="articleModalContent">
+                    <!-- Article content will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Profile Modal -->
+        <div id="editProfileModal" class="modal hidden">
+            <div class="modal-backdrop"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Edit Profile</h3>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="profileName" placeholder="Your full name">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">LinkedIn URL</label>
+                        <input type="url" class="form-control" id="profileLinkedIn" placeholder="https://linkedin.com/in/your-profile">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Blog URL</label>
+                        <input type="url" class="form-control" id="profileBlog" placeholder="https://yourblog.com">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">GitHub URL</label>
+                        <input type="url" class="form-control" id="profileGitHub" placeholder="https://github.com/yourusername">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Twitter/X URL</label>
+                        <input type="url" class="form-control" id="profileTwitter" placeholder="https://twitter.com/yourusername">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Location</label>
+                        <input type="text" class="form-control" id="profileLocation" placeholder="City, Country">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Specialties (comma-separated)</label>
+                        <input type="text" class="form-control" id="profileSpecialties" placeholder="Business Central, Azure AI, Development">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn--outline" id="cancelProfile">Cancel</button>
+                    <button class="btn btn--primary" id="saveProfile">Save Profile</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Event Modal -->
+        <div id="addEventModal" class="modal hidden">
+            <div class="modal-backdrop"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="eventModalTitle">Add Event</h3>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label">Event Name</label>
+                        <input type="text" class="form-control" id="eventName" placeholder="Conference/Event Name">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Start Date</label>
+                        <input type="date" class="form-control" id="eventStartDate">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">End Date</label>
+                        <input type="date" class="form-control" id="eventEndDate">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Location</label>
+                        <input type="text" class="form-control" id="eventLocation" placeholder="City, Country">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Event Type</label>
+                        <select class="form-control" id="eventType">
+                            <option value="Conference">Conference</option>
+                            <option value="User Group">User Group</option>
+                            <option value="Webinar">Webinar</option>
+                            <option value="Workshop">Workshop</option>
+                            <option value="Meetup">Meetup</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Website URL</label>
+                        <input type="url" class="form-control" id="eventWebsite" placeholder="https://event-website.com">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">CFP Deadline (if applicable)</label>
+                        <input type="date" class="form-control" id="eventCfpDeadline">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Topics (comma-separated)</label>
+                        <input type="text" class="form-control" id="eventTopics" placeholder="Azure, AI, Business Central">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Your Involvement</label>
+                        <select class="form-control" id="eventInvolvement">
+                            <option value="considering">Considering</option>
+                            <option value="attending">Planning to Attend</option>
+                            <option value="speaking">Speaking</option>
+                            <option value="organizing">Organizing</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Notes</label>
+                        <textarea class="form-control" id="eventNotes" rows="3" placeholder="Additional notes about this event"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn--outline" id="cancelEvent">Cancel</button>
+                    <button class="btn btn--primary" id="saveEvent">Save Event</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Find Events Modal -->
+        <div id="findEventsModal" class="modal hidden">
+            <div class="modal-backdrop"></div>
+            <div class="modal-content modal-large">
+                <div class="modal-header">
+                    <h3>Find Events Near You</h3>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label">Your Location</label>
+                        <input type="text" class="form-control" id="searchLocation" placeholder="Enter city or region">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Topics of Interest</label>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" value="Business Central"> Business Central</label>
+                            <label><input type="checkbox" value="Azure AI"> Azure AI</label>
+                            <label><input type="checkbox" value="Dynamics 365"> Dynamics 365</label>
+                            <label><input type="checkbox" value="Power Platform"> Power Platform</label>
+                            <label><input type="checkbox" value="Development"> Development</label>
+                        </div>
+                    </div>
+                    <button class="btn btn--primary" id="searchEventsBtn">Search Events</button>
+                    <div id="eventSearchResults" class="search-results">
+                        <!-- Search results will appear here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Ideas Modal -->
+        <div id="contentIdeasModal" class="modal hidden">
+            <div class="modal-backdrop"></div>
+            <div class="modal-content modal-large">
+                <div class="modal-header">
+                    <h3 id="contentModalTitle">Content Ideas</h3>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="content-tabs">
+                        <button class="tab-btn active" data-content-type="all">All Ideas</button>
+                        <button class="tab-btn" data-content-type="blog">Blog Posts</button>
+                        <button class="tab-btn" data-content-type="speaking">Speaking</button>
+                        <button class="tab-btn" data-content-type="contribution">Contributions</button>
+                    </div>
+                    <div class="content-actions" style="margin: var(--space-16) 0;">
+                        <button class="btn btn--primary btn--sm" id="addContentIdeaBtn">Add New Idea</button>
+                    </div>
+                    <div id="contentIdeasList" class="content-ideas-list">
+                        <!-- Content ideas will be rendered here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Content Idea Modal -->
+        <div id="addContentIdeaModal" class="modal hidden">
+            <div class="modal-backdrop"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Add Content Idea</h3>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label">Content Type</label>
+                        <select class="form-control" id="contentIdeaType">
+                            <option value="blog">Blog Post</option>
+                            <option value="speaking">Speaking Topic</option>
+                            <option value="contribution">Contribution</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Title</label>
+                        <input type="text" class="form-control" id="contentIdeaTitle" placeholder="Content idea title">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Priority</label>
+                        <select class="form-control" id="contentIdeaPriority">
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Status</label>
+                        <select class="form-control" id="contentIdeaStatus">
+                            <option value="idea">Idea</option>
+                            <option value="draft">Draft</option>
+                            <option value="in-progress">In Progress</option>
+                            <option value="completed">Completed</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Notes</label>
+                        <textarea class="form-control" id="contentIdeaNotes" rows="4" placeholder="Additional details, research links, outline, etc."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn--outline" id="cancelContentIdea">Cancel</button>
+                    <button class="btn btn--primary" id="saveContentIdea">Save Idea</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading indicator -->
+        <div id="loadingIndicator" class="loading-indicator hidden">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">Processing...</div>
+        </div>
+
+        <!-- Toast notifications -->
+        <div id="toastContainer" class="toast-container"></div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
